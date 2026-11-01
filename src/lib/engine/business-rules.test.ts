@@ -37,7 +37,7 @@ function makeEvent(overrides: Partial<EventData> = {}): EventData {
 }
 
 describe('Business Rules Engine', () => {
-  // â”€â”€â”€ Date Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Date Validation ──────────────────────────────
 
   describe('date validation', () => {
     it('accepts valid date range', () => {
@@ -75,7 +75,7 @@ describe('Business Rules Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Budget Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Budget Validation ────────────────────────────
 
   describe('budget validation', () => {
     it('detects budget overflow', () => {
@@ -133,7 +133,7 @@ describe('Business Rules Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Task State Consistency â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Task State Consistency ───────────────────────
 
   describe('task validation', () => {
     it('detects self-dependency', () => {
@@ -181,7 +181,7 @@ describe('Business Rules Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Team References â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Team References ──────────────────────────────
 
   describe('team reference validation', () => {
     it('warns on invalid assignee reference', () => {
@@ -208,7 +208,7 @@ describe('Business Rules Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Helpers ──────────────────────────────────────
 
   describe('helper functions', () => {
     it('hasErrors returns false for clean event', () => {

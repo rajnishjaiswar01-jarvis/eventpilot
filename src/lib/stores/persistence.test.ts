@@ -36,7 +36,7 @@ function makeValidEvent(overrides: Partial<EventData> = {}): EventData {
 }
 
 describe('Persistence Layer', () => {
-  // â”€â”€â”€ Export/Import â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Export/Import ────────────────────────────────
 
   describe('exportEventsToJSON', () => {
     it('creates valid JSON with version and events', () => {

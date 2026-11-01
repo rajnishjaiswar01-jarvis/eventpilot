@@ -21,7 +21,7 @@ function makeTask(id: string, title: string, dependsOn: string[] = [], dueDate =
 }
 
 describe('Dependency Graph Engine', () => {
-  // â”€â”€â”€ Graph Construction â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Graph Construction ───────────────────────────
 
   describe('buildDependencyGraph', () => {
     it('builds graph from tasks', () => {
@@ -45,7 +45,7 @@ describe('Dependency Graph Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Cycle Detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Cycle Detection ──────────────────────────────
 
   describe('detectCycles', () => {
     it('returns empty for acyclic graph', () => {
@@ -92,7 +92,7 @@ describe('Dependency Graph Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Cycle Prevention â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Cycle Prevention ─────────────────────────────
 
   describe('wouldCreateCycle', () => {
     it('detects self-loop', () => {
@@ -101,7 +101,7 @@ describe('Dependency Graph Engine', () => {
     });
 
     it('detects cycle through existing edges', () => {
-      // a â†’ b (existing). Adding b â†’ a would create cycle.
+      // a → b (existing). Adding b → a would create cycle.
       const graph = new Map([['a', ['b']], ['b', []]]);
       expect(wouldCreateCycle(graph, 'b', 'a')).toBe(true);
     });
@@ -112,7 +112,7 @@ describe('Dependency Graph Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Topological Sort â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Topological Sort ─────────────────────────────
 
   describe('topologicalSort', () => {
     it('returns correct order for linear chain', () => {
@@ -164,7 +164,7 @@ describe('Dependency Graph Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Dependency Validation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Dependency Validation ────────────────────────
 
   describe('validateDependencies', () => {
     it('returns no errors for valid graph', () => {

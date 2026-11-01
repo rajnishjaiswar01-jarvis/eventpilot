@@ -174,7 +174,7 @@ export function TimelinePlanner({ event }: TimelinePlannerProps) {
         <div>
           <h3 className="font-semibold">Timeline</h3>
           <p className="text-sm text-muted-foreground">
-            {event.tasks.length} task{event.tasks.length !== 1 ? 's' : ''} Â· Event: {format(eventStart, 'MMM d')} â€“ {format(eventEnd, 'MMM d, yyyy')}
+            {event.tasks.length} task{event.tasks.length !== 1 ? 's' : ''} · Event: {format(eventStart, 'MMM d')} — {format(eventEnd, 'MMM d, yyyy')}
           </p>
         </div>
         <button
@@ -194,7 +194,7 @@ export function TimelinePlanner({ event }: TimelinePlannerProps) {
             <p className="text-sm font-medium text-red-800">Circular dependencies detected</p>
             {analysis.cycles.map((cycle, i) => (
               <p key={i} className="text-xs text-red-700 mt-1">
-                Cycle: {cycle.map((id) => taskMap.get(id)?.title ?? id).join(' â†’ ')}
+                Cycle: {cycle.map((id) => taskMap.get(id)?.title ?? id).join(' → ')}
               </p>
             ))}
           </div>

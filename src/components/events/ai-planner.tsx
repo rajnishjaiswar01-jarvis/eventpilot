@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import {
-  Sparkles, Loader2, AlertTriangle, CheckCircle2,
+  Sparkles, Loader2, AlertTriangle, CheckCircle2, Check,
   Lightbulb, ListChecks, ShieldAlert, Store, Wallet,
   ChevronDown, ChevronUp,
 } from 'lucide-react';
@@ -220,7 +220,7 @@ export function AiPlanner({ event }: AiPlannerProps) {
             <ul className="space-y-1.5">
               {plan.themeIdeas.map((t, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
-                  <span className="text-primary mt-0.5">â€¢</span>
+                  <span className="text-primary mt-0.5">•</span>
                   <span>{t}</span>
                 </li>
               ))}
@@ -244,7 +244,7 @@ export function AiPlanner({ event }: AiPlannerProps) {
                     : 'bg-primary text-primary-foreground hover:bg-primary/90'
                 )}
               >
-                {appliedSections.has('budget') ? 'âœ“ Applied' : 'Apply to Event'}
+                {appliedSections.has('budget') ? <><Check className="w-3 h-3 inline mr-0.5" />Applied</> : 'Apply to Event'}
               </button>
             }
           >
@@ -300,7 +300,7 @@ export function AiPlanner({ event }: AiPlannerProps) {
                     : 'bg-primary text-primary-foreground hover:bg-primary/90'
                 )}
               >
-                {appliedSections.has('tasks') ? 'âœ“ Applied' : 'Apply to Event'}
+                {appliedSections.has('tasks') ? <><Check className="w-3 h-3 inline mr-0.5" />Applied</> : 'Apply to Event'}
               </button>
             }
           >
@@ -339,7 +339,7 @@ export function AiPlanner({ event }: AiPlannerProps) {
                     : 'bg-primary text-primary-foreground hover:bg-primary/90'
                 )}
               >
-                {appliedSections.has('risks') ? 'âœ“ Applied' : 'Apply to Event'}
+                {appliedSections.has('risks') ? <><Check className="w-3 h-3 inline mr-0.5" />Applied</> : 'Apply to Event'}
               </button>
             }
           >
@@ -379,7 +379,7 @@ export function AiPlanner({ event }: AiPlannerProps) {
                     : 'bg-primary text-primary-foreground hover:bg-primary/90'
                 )}
               >
-                {appliedSections.has('vendors') ? 'âœ“ Applied' : 'Apply to Event'}
+                {appliedSections.has('vendors') ? <><Check className="w-3 h-3 inline mr-0.5" />Applied</> : 'Apply to Event'}
               </button>
             }
           >

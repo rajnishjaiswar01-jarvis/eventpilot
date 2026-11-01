@@ -500,3 +500,109 @@ describe('Journey 9: Export, import, and recover saved data', () => {
     expect(result.success).toBe(false);
   });
 });
+
+// ─── Journey 8: Date Validation ─────────────────────────
+
+describe('Journey 8 — Past Date Validation', () => {
+  function todayStr(): string {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  function futureStr(daysAhead: number): string {
+    const d = new Date();
+    d.setDate(d.getDate() + daysAhead);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  const baseInput = {
+    name: 'Test Event',
+    description: '',
+    category: 'conference' as const,
+    location: '',
+    expectedGuests: 50,
+    currency: 'INR' as const,
+    totalBudgetMajor: 10000,
+  };
+
+  it('rejects a start date in the past', () => {
+    const result = CreateEventInputSchema.safeParse({
+      ...baseInput,
+      startDate: '2002-12-05',
+      endDate: '2002-12-06',
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const startError = result.error.issues.find((i) => i.path.includes('startDate'));
+      expect(startError).toBeDefined();
+      expect(startError!.message).toMatch(/cannot be earlier than today/i);
+    }
+  });
+
+  it('accepts today as start date', () => {
+    const today = todayStr();
+    const result = CreateEventInputSchema.safeParse({
+      ...baseInput,
+      startDate: today,
+      endDate: today,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts a future start date', () => {
+    const result = CreateEventInputSchema.safeParse({
+      ...baseInput,
+      startDate: futureStr(30),
+      endDate: futureStr(31),
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('rejects end date before start date', () => {
+    const result = CreateEventInputSchema.safeParse({
+      ...baseInput,
+      startDate: futureStr(10),
+      endDate: futureStr(5),
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const endError = result.error.issues.find((i) => i.path.includes('endDate'));
+      expect(endError).toBeDefined();
+      expect(endError!.message).toMatch(/on or after start date/i);
+    }
+  });
+
+  it('accepts same start and end date', () => {
+    const date = futureStr(7);
+    const result = CreateEventInputSchema.safeParse({
+      ...baseInput,
+      startDate: date,
+      endDate: date,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('does NOT block past dates in EventDataSchema (historical data)', () => {
+    const result = EventDataSchema.safeParse({
+      id: 'hist-1',
+      name: 'Historical Event',
+      description: '',
+      category: 'conference',
+      status: 'completed',
+      startDate: '2020-01-15',
+      endDate: '2020-01-16',
+      location: '',
+      expectedGuests: 100,
+      currency: 'INR',
+      totalBudgetMinor: 500000,
+      budgetItems: [],
+      tasks: [],
+      vendors: [],
+      teamMembers: [],
+      risks: [],
+      createdAt: '2020-01-01T00:00:00Z',
+      updatedAt: '2020-01-01T00:00:00Z',
+    });
+    expect(result.success).toBe(true);
+  });
+});

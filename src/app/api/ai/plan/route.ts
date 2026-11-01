@@ -93,7 +93,7 @@ Return ONLY a valid JSON object with this exact structure:
       const timeout = setTimeout(() => controller.abort(), AI_SAFETY_CONFIG.REQUEST_TIMEOUT_MS);
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -108,13 +108,36 @@ Return ONLY a valid JSON object with this exact structure:
       clearTimeout(timeout);
 
       if (!response.ok) {
+        let providerError = '';
+        let providerStatus = '';
+        try {
+          const errorJson = await response.json();
+          providerError = errorJson?.error?.message || '';
+          providerStatus = errorJson?.error?.status || '';
+        } catch {
+          try {
+            providerError = await response.text();
+          } catch {
+            // ignore fallback error
+          }
+        }
+
         const errorType = classifyAIError(response.status);
         if (isRetryableError(errorType) && attempt < AI_SAFETY_CONFIG.MAX_RETRIES) {
           await new Promise((r) => setTimeout(r, getRetryDelay(attempt)));
           continue;
         }
+
+        const detailedMessage = providerError
+          ? `AI provider error: ${providerError}${providerStatus ? ` (${providerStatus} ${response.status})` : ` (${response.status})`}`
+          : `AI provider error: ${errorType} (${response.status})`;
+
         return Response.json(
-          { error: `AI provider error: ${errorType} (${response.status})` },
+          {
+            error: detailedMessage,
+            status: response.status,
+            code: providerStatus || errorType,
+          },
           { status: 502 }
         );
       }

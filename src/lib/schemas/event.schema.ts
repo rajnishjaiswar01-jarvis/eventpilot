@@ -133,23 +133,47 @@ export const EventDataSchema = z.object({
 
 // ─── Event Creation Input (partial, for wizard) ─────────
 
-export const CreateEventInputSchema = z.object({
-  name: z.string().min(1, 'Event name is required').max(200),
-  description: z.string().max(2000).default(''),
-  category: EventCategorySchema,
-  startDate: z.string().refine(
-    (val) => !isNaN(Date.parse(val)),
-    { message: 'Start date must be a valid date' }
-  ),
-  endDate: z.string().refine(
-    (val) => !isNaN(Date.parse(val)),
-    { message: 'End date must be a valid date' }
-  ),
-  location: z.string().default(''),
-  expectedGuests: z.number().int().min(0).default(0),
-  currency: CurrencyCodeSchema.default('INR'),
-  totalBudgetMajor: z.number().min(0, 'Budget cannot be negative').default(0),
-});
+export const CreateEventInputSchema = z
+  .object({
+    name: z.string().min(1, 'Event name is required').max(200),
+    description: z.string().max(2000).default(''),
+    category: EventCategorySchema,
+    startDate: z.string().refine(
+      (val) => !isNaN(Date.parse(val)),
+      { message: 'Start date must be a valid date' }
+    ),
+    endDate: z.string().refine(
+      (val) => !isNaN(Date.parse(val)),
+      { message: 'End date must be a valid date' }
+    ),
+    location: z.string().default(''),
+    expectedGuests: z.number().int().min(0).default(0),
+    currency: CurrencyCodeSchema.default('INR'),
+    totalBudgetMajor: z.number().min(0, 'Budget cannot be negative').default(0),
+  })
+  .refine(
+    (data) => {
+      const today = new Date();
+      const localToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      const startStr = data.startDate.slice(0, 10);
+      return startStr >= localToday;
+    },
+    {
+      message: 'Start date cannot be earlier than today',
+      path: ['startDate'],
+    }
+  )
+  .refine(
+    (data) => {
+      const start = new Date(data.startDate);
+      const end = new Date(data.endDate);
+      return end >= start;
+    },
+    {
+      message: 'End date must be on or after start date',
+      path: ['endDate'],
+    }
+  );
 
 export type CreateEventInput = z.infer<typeof CreateEventInputSchema>;
 

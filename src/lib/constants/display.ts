@@ -17,16 +17,16 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
 };
 
 export const EVENT_CATEGORY_ICONS: Record<EventCategory, string> = {
-  wedding: 'ðŸ’',
-  birthday: 'ðŸŽ‚',
-  freshers_party: 'ðŸŽ‰',
-  farewell: 'ðŸ‘‹',
-  college_festival: 'ðŸŽª',
-  community_event: 'ðŸ˜ï¸',
-  conference: 'ðŸŽ¤',
-  seminar: 'ðŸ“š',
-  workshop: 'ðŸ”§',
-  custom: 'âš¡',
+  wedding: '💍',
+  birthday: '🎂',
+  freshers_party: '🎉',
+  farewell: '👋',
+  college_festival: '🎪',
+  community_event: '🏘️',
+  conference: '🎤',
+  seminar: '📚',
+  workshop: '🔧',
+  custom: '⚡',
 };
 
 export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {

@@ -43,7 +43,7 @@ function makeEvent(): EventData {
 }
 
 describe('Simulation Engine', () => {
-  // â”€â”€â”€ Deep Clone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Deep Clone ───────────────────────────────────
 
   describe('deepCloneEventData', () => {
     it('creates an independent copy', () => {
@@ -66,7 +66,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Scenario Creation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Scenario Creation ────────────────────────────
 
   describe('createScenario', () => {
     it('creates scenario with snapshot of original', () => {
@@ -88,7 +88,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Budget Modification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Budget Modification ──────────────────────────
 
   describe('applyBudgetModification', () => {
     it('returns new scenario with modified budget', () => {
@@ -116,7 +116,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Guest Count Modification â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Guest Count Modification ─────────────────────
 
   describe('applyGuestCountModification', () => {
     it('returns new scenario with modified guest count', () => {
@@ -129,7 +129,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Comparison â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Comparison ───────────────────────────────────
 
   describe('compareScenarioToOriginal', () => {
     it('computes correct differences', () => {
@@ -154,7 +154,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Promotion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Promotion ────────────────────────────────────
 
   describe('promoteScenario', () => {
     it('preserves original event ID', () => {
@@ -189,7 +189,7 @@ describe('Simulation Engine', () => {
     });
   });
 
-  // â”€â”€â”€ Deep copy isolation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── Deep copy isolation ──────────────────────────
 
   describe('deep copy isolation', () => {
     it('nested array mutations do not leak', () => {

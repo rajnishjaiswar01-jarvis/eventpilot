@@ -40,10 +40,10 @@ const CATEGORIES: EventCategory[] = [
 ];
 
 const CURRENCIES: { value: CurrencyCode; label: string }[] = [
-  { value: 'INR', label: 'â‚¹ INR' },
+  { value: 'INR', label: '₹ INR' },
   { value: 'USD', label: '$ USD' },
-  { value: 'EUR', label: 'â‚¬ EUR' },
-  { value: 'GBP', label: 'Â£ GBP' },
+  { value: 'EUR', label: '€ EUR' },
+  { value: 'GBP', label: '£ GBP' },
 ];
 
 const STEPS = ['Category', 'Details', 'Dates & Guests', 'Budget', 'Review'];
@@ -58,6 +58,14 @@ interface FormData {
   expectedGuests: string;
   currency: CurrencyCode;
   totalBudgetMajor: string;
+}
+
+function getLocalTodayString(): string {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export default function CreateEventPage() {
@@ -91,9 +99,16 @@ export default function CreateEventPage() {
       if (!form.name.trim()) newErrors.name = 'Event name is required';
       if (form.name.length > 200) newErrors.name = 'Event name is too long (max 200 chars)';
     } else if (step === 2) {
-      if (!form.startDate) newErrors.startDate = 'Start date is required';
-      if (!form.endDate) newErrors.endDate = 'End date is required';
-      if (form.startDate && form.endDate && new Date(form.endDate) < new Date(form.startDate)) {
+      const todayStr = getLocalTodayString();
+      if (!form.startDate) {
+        newErrors.startDate = 'Start date is required';
+      } else if (form.startDate < todayStr) {
+        newErrors.startDate = 'Start date cannot be earlier than today';
+      }
+
+      if (!form.endDate) {
+        newErrors.endDate = 'End date is required';
+      } else if (form.startDate && form.endDate < form.startDate) {
         newErrors.endDate = 'End date must be on or after start date';
       }
       const guests = parseInt(form.expectedGuests, 10);
@@ -152,7 +167,7 @@ export default function CreateEventPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Create Event</h1>
-          <p className="text-sm text-muted-foreground">Step {step + 1} of {STEPS.length} â€” {STEPS[step]}</p>
+          <p className="text-sm text-muted-foreground">Step {step + 1} of {STEPS.length} — {STEPS[step]}</p>
         </div>
       </div>
 
@@ -244,6 +259,7 @@ export default function CreateEventPage() {
                   <Input
                     id="startDate"
                     type="date"
+                    min={getLocalTodayString()}
                     value={form.startDate}
                     onChange={(e) => update('startDate', e.target.value)}
                     className={errors.startDate ? 'border-destructive' : ''}
@@ -255,8 +271,8 @@ export default function CreateEventPage() {
                   <Input
                     id="endDate"
                     type="date"
+                    min={form.startDate || getLocalTodayString()}
                     value={form.endDate}
-                    min={form.startDate}
                     onChange={(e) => update('endDate', e.target.value)}
                     className={errors.endDate ? 'border-destructive' : ''}
                   />
@@ -340,7 +356,7 @@ export default function CreateEventPage() {
                 <div className="flex justify-between py-2 border-b border-border">
                   <span className="text-muted-foreground">Dates</span>
                   <span className="font-medium">
-                    {form.startDate && format(new Date(form.startDate), 'MMM d, yyyy')} â€” {form.endDate && format(new Date(form.endDate), 'MMM d, yyyy')}
+                    {form.startDate && format(new Date(form.startDate), 'MMM d, yyyy')} — {form.endDate && format(new Date(form.endDate), 'MMM d, yyyy')}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-border">
